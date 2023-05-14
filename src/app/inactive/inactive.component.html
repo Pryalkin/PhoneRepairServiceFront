@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <div class="row p-2 pt-5">
+    <div class="col-xxl-2 col-xl-2 col-lg-1 col-md-0 col-sm-2 col-0"></div>
+    <div class="col-xxl-3 col-xl-2 col-lg-1 col-md-0 col-sm-2 col-0"></div>
+  </div>
+  <div class="row p-2" *ngFor="let phone of phoneRepairRequestAnswerDTO" >
+    <div class="col-3"></div>
+    <div class="col-6 border border-3 rounded-3" style="background-color: #f8f8f8">
+      <div class="row p-2">
+        <div class="col-10">
+          <a class="link-dark text-decoration-none" [routerLink]="[phone.idApp]">
+            <span class="h3"><strong>{{phone.dateOfRequestForPhoneRepair}}</strong></span>
+          </a>
+        </div>
+        <div *ngIf="flag" class="col-2">
+          <button class="btn btn-primary px-4" (click)="onTake(phone.idApp)">Take</button>
+        </div>
+      </div>
+      <div class="row p-2">
+        <div id="file{{phone.phoneNumber}}" class="col-4" data-bs-ride="carousel" style="min-height: 250px; min-width: 200px">
+          <div class="carousel-inner" style="height: 250px; width: 200px">
+            <div *ngFor="let photo of phone.photos; let idx = index;" class="carousel-item" [ngClass]="{active: idx === 0}">
+              <img src="{{photo}}" class="img-fluid img-thumbnail" alt="..." style="height: 250px; width: 200px">
+            </div>
+            <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#file'+phone.phoneNumber" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button"[attr.data-bs-target]="'#file'+phone.phoneNumber" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Следующий</span>
+            </button>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-12">
+              <div class="div rounded border border-2" style="min-height: 200px; min-width: 200px">
+                <span class="m-2"><strong>Причины: </strong><em>{{phone.causeOfFailure}}</em></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>

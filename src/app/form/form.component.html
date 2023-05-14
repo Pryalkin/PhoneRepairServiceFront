@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <div class="row p-5">
+    <div class="col-lg-4 col-sm-3"></div>
+    <div class="col-lg-4 col-sm-6 p-5 rounded" style="background-color: aquamarine">
+      <h1>Form</h1>
+      <form #loginForm="ngForm" #newForm="ngForm" (ngSubmit)="onAddNewOverview(newForm)">
+        <div class="input-group mb-4 border border-2 rounded" style="background-color: darkgray">
+          <i class="bi bi-person pe-2 ps-2"></i>
+          <input type="text" class="form-control" name="phoneNumber" placeholder="Phone number"
+                 ngModel #phoneNumberInput="ngModel" required>
+        </div>
+        <span class="help-block" style="color: red;"
+              *ngIf="phoneNumberInput.invalid && phoneNumberInput.touched">Please enter a phone number</span>
+        <div class="input-group mb-4 border border-2 rounded" style="background-color: darkgray">
+          <i class="bi bi-key pe-2 ps-2"></i>
+          <textarea  class="form-control form-control-lg" type="text" name="causeOfFailure" placeholder="Cause Of Failure" required
+                     ngModel #causeOfFailureInput="ngModel"></textarea>
+        </div>
+        <span class="help-block" style="color: red;"
+              *ngIf="causeOfFailureInput.invalid && causeOfFailureInput.touched">Please enter a password</span>
+        <div class="input-group mb-3 image">
+          <input class="form-control form-control-lg" type="file" name="image" placeholder="Image" required
+                 ngModel #imageInput="ngModel" (change)="onImage($event, 1)">
+          <button class="btn btn-primary q" type="button" (click)="addFile()">+</button>
+        </div>
+        <div class="input-group mb-3 image" [hidden]="file2">
+          <input class="form-control form-control-lg" type="file" name="image" placeholder="Image" required
+                 (change)="onImage($event, 2)">
+          <button class="btn btn-primary q" type="button" (click)="deleteFile(2)">-</button>
+        </div>
+        <div class="input-group mb-3 image" [hidden]="file3">
+          <input class="form-control form-control-lg" type="file" name="image" placeholder="Image" required
+                 (change)="onImage($event, 3)">
+          <button class="btn btn-primary q" type="button" (click)="deleteFile(3)">-</button>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+          <button type="submit" name="button" [disabled]="loginForm.invalid || showLoading" class="btn btn-primary px-4">
+            <i *ngIf="showLoading" class="spinner-border"></i>&nbsp;&nbsp;
+            <span *ngIf="showLoading" class="sr-only">Loading...</span>
+            <span *ngIf="!showLoading">Registration</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-4 col-sm-3"></div>
+  </div>
+</div>
