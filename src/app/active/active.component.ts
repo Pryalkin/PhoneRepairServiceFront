@@ -7,6 +7,7 @@ import {Subscription} from "rxjs";
 import {ActivatedRoute, Params} from "@angular/router";
 import {PhoneRepairRequestAnswerDTO} from "../dto/phoneRepairRequestAnswerDTO";
 import {UserService} from "../service/user.service";
+import {PhoneRepairAnswerDTO} from "../dto/phoneRepairAnswerDTO";
 
 @Component({
   selector: 'app-active',
@@ -16,7 +17,7 @@ import {UserService} from "../service/user.service";
 export class ActiveComponent  implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
-  public phoneRepairRequestAnswerDTO: Array<PhoneRepairRequestAnswerDTO> = new Array<PhoneRepairRequestAnswerDTO>();
+  public phoneRepairAnswerDTO: Array<PhoneRepairAnswerDTO> = new Array<PhoneRepairAnswerDTO>();
 
   constructor(private notificationService: NotificationService,
               private route: ActivatedRoute,
@@ -24,15 +25,32 @@ export class ActiveComponent  implements OnInit, OnDestroy {
               private userService: UserService) { }
 
   ngOnInit(): void {
-    this.getActive();
+    if(this.authenticationService.getRole() == "ROLE_USER") this.getActive()
+    if(this.authenticationService.getRole() == "ROLE_ENGINEER") this.getActiveForEngineer()
   }
 
   private getActive(){
     this.route.params.subscribe((params: Params) => {
       this.subscriptions.push(
-        this.userService.getActive().subscribe(
-          (response: Array<PhoneRepairRequestAnswerDTO>) => {
-            this.phoneRepairRequestAnswerDTO = response;
+        this.userService.getActive(this.authenticationService.getUsername()).subscribe(
+          (response: Array<PhoneRepairAnswerDTO>) => {
+            this.phoneRepairAnswerDTO = response;
+            console.log(response)
+          },
+          (errorResponse: HttpErrorResponse) => {
+            this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+          }
+        )
+      );
+    });
+  }
+
+  private getActiveForEngineer(){
+    this.route.params.subscribe((params: Params) => {
+      this.subscriptions.push(
+        this.userService.getActiveForEngineer(this.authenticationService.getUsername()).subscribe(
+          (response: Array<PhoneRepairAnswerDTO>) => {
+            this.phoneRepairAnswerDTO = response;
             console.log(response)
           },
           (errorResponse: HttpErrorResponse) => {

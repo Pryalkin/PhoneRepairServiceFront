@@ -1,10 +1,10 @@
 export class PhoneRepairDTO{
   public engineer: string;
-  public phoneNumber: string;
+  public idApp: string;
 
-  constructor(engineer: string, phoneNumber: string) {
+  constructor(engineer: string, idApp: string) {
     this.engineer = engineer
-    this.phoneNumber = phoneNumber
+    this.idApp = idApp
   }
 
 }

@@ -79,7 +79,6 @@ export class InactiveComponent implements OnInit, OnDestroy {
   }
 
   public onTake(idApp: string){
-    console.log("Hello pavel")
     const username = this.authenticationService.getUsername()
     const phoneRepairDTO: PhoneRepairDTO = new PhoneRepairDTO(username, idApp);
     this.route.params.subscribe((params: Params) => {

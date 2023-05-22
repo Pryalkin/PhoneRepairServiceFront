@@ -32,9 +32,19 @@ export class UserService {
     (`${this.host}/phone_repair_request/create`, formData);
   }
 
-  public getActive(): Observable<Array<PhoneRepairRequestAnswerDTO>> {
-    return this.http.get<Array<PhoneRepairRequestAnswerDTO>>
-    (`${this.host}/phone_repair_request/user/get/active`);
+  // public getActive(): Observable<Array<PhoneRepairRequestAnswerDTO>> {
+  //   return this.http.get<Array<PhoneRepairRequestAnswerDTO>>
+  //   (`${this.host}/phone_repair_request/user/get/active`);
+  // }
+
+  public getActive(username: string): Observable<Array<PhoneRepairAnswerDTO>> {
+    return this.http.get<Array<PhoneRepairAnswerDTO>>
+    (`${this.host}/phone_repair/get/for_customer/${username}`);
+  }
+
+  public getActiveForEngineer(username: string): Observable<Array<PhoneRepairAnswerDTO>> {
+    return this.http.get<Array<PhoneRepairAnswerDTO>>
+    (`${this.host}/phone_repair/get/for_engineer/${username}`);
   }
 
   getInactive(): Observable<Array<PhoneRepairRequestAnswerDTO>> {
