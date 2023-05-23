@@ -4,10 +4,12 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AuthenticationService} from "../service/authentication.service";
 import {NotificationService} from "../service/notification.service";
 import {Subscription} from "rxjs";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {PhoneRepairRequestAnswerDTO} from "../dto/phoneRepairRequestAnswerDTO";
 import {UserService} from "../service/user.service";
 import {PhoneRepairAnswerDTO} from "../dto/phoneRepairAnswerDTO";
+import {PhoneRepairDTO} from "../dto/phoneRepairDTO";
+import {CustomHttpResponse} from "../dto/custom-http-response";
 
 @Component({
   selector: 'app-active',
@@ -18,9 +20,11 @@ export class ActiveComponent  implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public phoneRepairAnswerDTO: Array<PhoneRepairAnswerDTO> = new Array<PhoneRepairAnswerDTO>();
+  public flag: boolean = false;
 
   constructor(private notificationService: NotificationService,
               private route: ActivatedRoute,
+              private router: Router,
               private authenticationService: AuthenticationService,
               private userService: UserService) { }
 
@@ -46,6 +50,7 @@ export class ActiveComponent  implements OnInit, OnDestroy {
   }
 
   private getActiveForEngineer(){
+    this.flag = true
     this.route.params.subscribe((params: Params) => {
       this.subscriptions.push(
         this.userService.getActiveForEngineer(this.authenticationService.getUsername()).subscribe(
@@ -73,4 +78,21 @@ export class ActiveComponent  implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  ready(idApp: string) {
+    console.log("Pavel")
+    const username = this.authenticationService.getUsername()
+    const phoneRepairDTO: PhoneRepairDTO = new PhoneRepairDTO(username, idApp);
+    this.route.params.subscribe((params: Params) => {
+      this.subscriptions.push(
+        this.userService.ready(phoneRepairDTO).subscribe(
+          (response: CustomHttpResponse) => {
+            this.router.navigate(['/user/active']);
+          },
+          (errorResponse: HttpErrorResponse) => {
+            this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+          }
+        )
+      );
+    });
+  }
 }

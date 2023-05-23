@@ -18,6 +18,7 @@ import { FormComponent } from './form/form.component';
 import { ActiveComponent } from './active/active.component';
 import { InactiveComponent } from './inactive/inactive.component';
 import { DetailComponent } from './detail/detail.component';
+import { ReadyComponent } from './ready/ready.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DetailComponent } from './detail/detail.component';
     FormComponent,
     ActiveComponent,
     InactiveComponent,
-    DetailComponent
+    DetailComponent,
+    ReadyComponent
   ],
   imports: [
     BrowserModule,

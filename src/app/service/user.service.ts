@@ -66,4 +66,19 @@ export class UserService {
     return this.http.post<CustomHttpResponse>
     (`${this.host}/phone_repair/registration`, phoneRepairDTO);
   }
+
+  ready(phoneRepairDTO: PhoneRepairDTO): Observable<CustomHttpResponse>{
+    return this.http.post<CustomHttpResponse>
+    (`${this.host}/phone_repair/ready`, phoneRepairDTO);
+  }
+
+  public getReady(username: string): Observable<Array<PhoneRepairAnswerDTO>> {
+    return this.http.get<Array<PhoneRepairAnswerDTO>>
+    (`${this.host}/phone_repair/get/for_customer/on_ready/${username}`);
+  }
+
+  public getReadyForEngineer(username: string): Observable<Array<PhoneRepairAnswerDTO>> {
+    return this.http.get<Array<PhoneRepairAnswerDTO>>
+    (`${this.host}/phone_repair/get/for_engineer/on_ready/${username}`);
+  }
 }
